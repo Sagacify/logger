@@ -1,0 +1,38 @@
+{
+  "name": "logger",
+  "version": "0.0.1",
+  "description": "A basic Logger object that force a logging format, can use logentries",
+  "main": "lib/index.js",
+  "scripts": {
+    "mocha": "mocha -R spec ./test",
+    "linter": "semistandard --verbose | snazzy",
+    "test": "npm run linter && npm run mocha",
+    "2npm": "publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sagacify/logger.git"
+  },
+  "keywords": [
+    "log",
+    "logger",
+    "logentries"
+  ],
+  "author": "Louis Borsu <louis@sagacify.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sagacify/logger/issues"
+  },
+  "homepage": "https://github.com/Sagacify/logger#readme",
+  "dependencies": {
+    "bunyan": "1.7.1",
+    "le_node": "1.2.0"
+  },
+  "devDependencies": {
+    "chai": "3.5.0",
+    "mocha": "2.4.5",
+    "publish": "0.5.0",
+    "semistandard": "7.0.5",
+    "snazzy": "3.0.0"
+  }
+}
