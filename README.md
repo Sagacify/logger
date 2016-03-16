@@ -10,7 +10,7 @@ LOG_LEVEL # (Optional) Define you log level, defaut to 'info'
 ## Usage
 
 ```js
-var log = require('logger')
+var log = require('saga-logger')
   .create({ module: 'files-controller' });
 
 log.debug('event', {
