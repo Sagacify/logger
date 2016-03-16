@@ -1,3 +1,14 @@
+dependencies:
+  override:
+    - sudo pip install codecov
+    - npm install -g istanbul
+
+test:
+  override:
+    - istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec
+    - codecov
+    - npm test
+
 deployment:
   npm:
     branch: master
