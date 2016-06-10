@@ -1,13 +1,16 @@
 dependencies:
   override:
-    - sudo pip install codecov
-    - npm install -g istanbul
+    - npm install
+    - npm run build
+    - wget https://raw.githubusercontent.com/Sagacify/ci-tools/master/run-sonar.sh
+    - chmod +x run-sonar.sh
+    - ./run-sonar.sh check
+    - ./run-sonar.sh install
 
 test:
   override:
-    - istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec
-    - codecov
     - npm test
+    - ./run-sonar.sh run
 
 deployment:
   npm:

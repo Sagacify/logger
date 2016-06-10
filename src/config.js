@@ -1,6 +1,6 @@
-var env = process.env;
+const env = process.env;
 
-module.exports = {
+export default {
   logEntries: {
     token: env.LOGENTRIES_TOKEN
   },
