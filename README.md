@@ -33,3 +33,13 @@ log.error(event, data, metadata);
 log.fatal(event, data, metadata);
 ```
 
+It is also possible to logify a function returning a promise:
+```js
+log.logify(func, event);
+```
+
+To replace all functions returning promise of an object:
+```js
+log.logifyAll(obj, promisified);
+```
+Promisified is optional and is used to pass the suffix of methods generated with the Bluebird promisifyAll method.
