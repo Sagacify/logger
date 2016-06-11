@@ -35,11 +35,33 @@ log.fatal(event, data, metadata);
 
 It is also possible to logify a function returning a promise:
 ```js
-log.logify(func, event);
+const logifiedFunc = log.logify(func, event);
 ```
+It will wrap the func(args) function in a promise that:
+- log.debug(event, null, args)
+- execute func
+- if success, log.debug(event + '_SUCCESS', result, args), resolve with result
+- if fail, log.error(event + '_FAIL', err, args), reject with err
 
 To replace all functions returning promise of an object:
 ```js
 log.logifyAll(obj, promisified);
 ```
-Promisified is optional and is used to pass the suffix of methods generated with the Bluebird promisifyAll method.
+Promisified is optional and is used to pass the suffix of methods generated with the Bluebird promisifyAll method. Here is an example of how to use it to promisify and then logify aws-sdk library:
+```
+import BPromise from 'bluebird';
+import AWS from 'aws-sdk';
+const log = require('./src').create({ module: 'sqs' });
+
+AWS.config.update({
+  accessKeyId: 'accessKeyId',
+  secretAccessKey: 'secretAccessKey'
+});
+const sqs = new AWS.SQS();
+
+// this will add promisified versions of sqs methods, with 'Async' suffix
+const promisifiedSqs = BPromise.promisifyAll(sqs);
+
+// this will replace all promisified versions of sqs methods by their logified versions
+log.logifyAll(promisifiedSqs, true);
+```
