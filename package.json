@@ -1,12 +1,12 @@
 {
   "name": "saga-logger",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A basic Logger object that force a logging format, can use logentries",
-  "main": "dist/index.js",
+  "main": "index.js",
   "scripts": {
     "build": "babel --presets=es2015 --ignore='node_modules' src -d dist",
     "test": "LOG_LEVEL=fatal mocha --compilers js:babel-core/register",
-    "2npm": "publish"
+    "2npm": "cp package.json dist; npm publish dist"
   },
   "repository": {
     "type": "git",
