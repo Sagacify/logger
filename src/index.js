@@ -28,16 +28,20 @@ const mainLogger = bunyan.createLogger({
 
 function buildLog (event, data = null, meta = null) {
   if (data instanceof Error) {
+    data.alreadyLogged = true;
     data = bunyan.stdSerializers.err(data);
   }
 
-  return { event, data, meta };
+  return { event, data, meta };
 }
 
 const methods = loggerRef => {
   const logMethods = {};
   ['debug', 'info', 'warn', 'error', 'fatal'].forEach(logLevel => {
     logMethods[logLevel] = (event, data, meta) => {
+      if (data.alreadyLogged) {
+        return null;
+      }
       loggerRef[logLevel](buildLog(event, data, meta));
     };
   });
