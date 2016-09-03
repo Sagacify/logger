@@ -1,6 +1,6 @@
 {
   "name": "saga-logger",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A basic Logger object that force a logging format, can use logentries",
   "main": "index.js",
   "scripts": {
