@@ -2,7 +2,6 @@ import bunyan from 'bunyan';
 import config from './config';
 import pkg from './package';
 import Logentries from 'le_node';
-import BPromise from 'bluebird';
 import _ from 'lodash';
 
 let bunyanStream = {
@@ -50,18 +49,15 @@ const methods = loggerRef => {
     if (args.length === 1 && _.isObject(args[0])) {
       meta = args[0];
     }
-    return new BPromise((resolve, reject) => {
-      logMethods.debug(event, null, meta);
-      func.apply(this, args)
-        .then(result => {
-          logMethods.debug(`${event}_SUCCESS`, result, meta);
-          resolve(result);
-        })
-        .catch(err => {
-          logMethods.error(`${event}_FAIL`, err, meta);
-          reject(err);
-        });
-    });
+
+    logMethods.debug(event, null, meta);
+    return func.apply(this, args)
+      .tap(result =>
+        logMethods.debug(`${event}_SUCCESS`, result, meta))
+      .catch(err => {
+        logMethods.error(`${event}_FAIL`, err, meta);
+        throw err;
+      });
   };
 
   const logifyAll = (obj, promisified) => {
