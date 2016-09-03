@@ -43,6 +43,9 @@ const methods = loggerRef => {
   });
 
   const logify = (func, event) => (...args) => {
+    if (!_.isFunction(func)) {
+      throw new Error('1st argument should be a function');
+    }
     event = _.snakeCase(event).toUpperCase();
     let meta = args;
     if (args.length === 1 && _.isObject(args[0])) {
@@ -70,7 +73,7 @@ const methods = loggerRef => {
       promisified = 'Async';
     }
     for (const key in obj) {
-      if (_.endsWith(key, promisified)) {
+      if (_.endsWith(key, promisified) && _.isFunction(obj[key])) {
         obj[key] = logify(obj[key].bind(obj), _.trim(key, promisified));
       }
     }
