@@ -1,4 +1,5 @@
 /* global describe, it */
+import BPromise from 'bluebird';
 
 const logger = require('../src/index');
 const assert = require('chai').assert;
@@ -48,5 +49,30 @@ describe('Logger', () => {
 
   it('Created logger "logifyAll" method takes 2 arguments', () => {
     assert.equal(testLogger.logifyAll.length, 2);
+  });
+
+  it('Created logger "logify" should work as expected', () => {
+    const testFunction = (fail) => new BPromise((resolve, reject) => {
+      if (fail) {
+        return reject(new Error('FAIL!'));
+      } else {
+        return resolve(true);
+      }
+    });
+
+    const logified = testLogger.logify(testFunction, 'testFunction');
+
+    logified(false)
+      .then(res => assert(res))
+      .catch(err => {
+        assert(false);
+        throw err;
+      });
+
+    logified(true)
+      .then(res => assert(false))
+      .catch(err => {
+        assert.equal(err.message, 'FAIL!');
+      });
   });
 });
