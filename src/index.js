@@ -62,7 +62,10 @@ const methods = loggerRef => {
     });
   };
 
-  const logifyAll = (obj, promisified = false) => {
+  const logifyAll = (obj, promisified) => {
+    if (promisified === undefined) {
+      promisified = '';
+    }
     if (promisified === true) {
       promisified = 'Async';
     }

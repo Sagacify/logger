@@ -46,7 +46,7 @@ describe('Logger', () => {
     assert.equal(testLogger.logify.length, 2);
   });
 
-  it('Created logger "logifyAll" method takes 1 arguments', () => {
-    assert.equal(testLogger.logifyAll.length, 1);
+  it('Created logger "logifyAll" method takes 2 arguments', () => {
+    assert.equal(testLogger.logifyAll.length, 2);
   });
 });
