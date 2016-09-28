@@ -28,10 +28,12 @@ const mainLogger = bunyan.createLogger({
 
 function buildLog (event, data = null, meta = null) {
   if (data instanceof Error) {
-    data = bunyan.stdSerializers.err(data);
+    data = {
+      error: bunyan.stdSerializers.err(data)
+    };
   }
 
-  return { event, data, meta };
+  return {event, data, meta};
 }
 
 const methods = loggerRef => {
