@@ -51,14 +51,14 @@ const methods = loggerRef => {
       meta = args[0];
     }
     return new BPromise((resolve, reject) => {
-      loggerRef.debug(event, null, meta);
+      logMethods.debug(event, null, meta);
       func.apply(this, args)
         .then(result => {
-          loggerRef.debug(`${event}_SUCCESS`, result, meta);
+          logMethods.debug(`${event}_SUCCESS`, result, meta);
           resolve(result);
         })
         .catch(err => {
-          loggerRef.error(`${event}_FAIL`, err, meta);
+          logMethods.error(`${event}_FAIL`, err, meta);
           reject(err);
         });
     });
