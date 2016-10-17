@@ -1,6 +1,6 @@
 {
   "name": "saga-logger",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A basic Logger object that force a logging format, can use logentries",
   "main": "index.js",
   "scripts": {
@@ -24,20 +24,20 @@
   },
   "homepage": "https://github.com/Sagacify/logger#readme",
   "dependencies": {
-    "bluebird": "3.4.0",
-    "bunyan": "1.7.1",
-    "le_node": "1.2.0",
-    "lodash": "4.13.1"
+    "bluebird": "3.4.6",
+    "bunyan": "1.8.1",
+    "le_node": "1.6.7",
+    "lodash": "4.16.4"
   },
   "devDependencies": {
-    "babel-cli": "6.9.0",
-    "babel-core": "6.9.0",
-    "babel-preset-es2015": "6.9.0",
+    "babel-cli": "6.16.0",
+    "babel-core": "6.17.0",
+    "babel-preset-es2015": "6.16.0",
     "chai": "3.5.0",
-    "mocha": "2.4.5",
+    "mocha": "3.1.2",
     "mocha-standard": "1.0.0",
-    "semistandard": "7.0.5",
-    "snazzy": "3.0.0"
+    "semistandard": "9.1.0",
+    "snazzy": "5.0.0"
   },
   "semistandard": {
     "ignore": "dist"
