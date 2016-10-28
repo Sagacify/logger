@@ -52,8 +52,10 @@ const methods = loggerRef => {
 
     logMethods.debug(event, null, meta);
     return func.apply(this, args)
-      .tap(result =>
-        logMethods.debug(`${event}_SUCCESS`, result, meta))
+      .then(result => {
+        logMethods.debug(`${event}_SUCCESS`, result, meta);
+        return result;
+      })
       .catch(err => {
         logMethods.error(`${event}_FAIL`, err, meta);
         throw err;
