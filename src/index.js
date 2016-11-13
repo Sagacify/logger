@@ -57,7 +57,11 @@ const methods = loggerRef => {
         return result;
       })
       .catch(err => {
-        logMethods.error(`${event}_FAIL`, err, meta);
+        logMethods.debug(`${event}_FAIL`, err, meta);
+        if (!err.event) {
+          err.event = event;
+          err.meta = meta;
+        }
         throw err;
       });
   };
