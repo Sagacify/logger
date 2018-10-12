@@ -3,7 +3,6 @@
 ## Environment Variables
 
 ```bash
-LOGENTRIES_TOKEN # (Optional) Use it to put your logentries token
 LOG_LEVEL # (Optional) Define you log level, defaut to 'info'
 ```
 

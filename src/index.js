@@ -1,19 +1,11 @@
-import bunyan from 'bunyan';
-import config from './config';
-import pkg from './package';
-import Logentries from 'le_node';
-import _ from 'lodash';
+const bunyan = require('bunyan');
+const config = require('./config');
+const pkg = require('./package');
+const _ = require('lodash');
 
-let bunyanStream = {
+const bunyanStream = {
   stream: process.stdout
 };
-
-if (config.logEntries.token) {
-  bunyanStream = Logentries.bunyanStream({
-    token: config.logEntries.token,
-    console: true
-  });
-}
 
 const mainLogger = bunyan.createLogger({
   name: pkg.name,
@@ -80,9 +72,10 @@ const methods = loggerRef => {
   return _.assign(logMethods, { logify, logifyAll });
 };
 
-export const create = info => {
+const create = info => {
   const loggerRef = mainLogger.child(info);
 
   return methods(loggerRef);
 };
 
+module.exports = { create };
