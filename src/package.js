@@ -13,4 +13,4 @@ const loadMainPackageJSON = (attempts = 1) => {
   }
 };
 
-export default loadMainPackageJSON();
+module.exports = loadMainPackageJSON();

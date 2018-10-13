@@ -1,10 +1,9 @@
-/* global describe, it */
-import BPromise from 'bluebird';
-
-const logger = require('../src/index');
+const logger = require('../src');
 const assert = require('chai').assert;
 
 describe('Logger', () => {
+  const testLogger = logger.create({ module: 'test' });
+
   it('The method "create" exists', () => {
     assert.isFunction(logger.create);
   });
@@ -12,8 +11,6 @@ describe('Logger', () => {
   it('The method "create" takes one argument', () => {
     assert.equal(logger.create.length, 1);
   });
-
-  var testLogger = logger.create({ module: 'test' });
 
   it('Created logger is an object', () => {
     assert.isObject(testLogger);
@@ -52,7 +49,7 @@ describe('Logger', () => {
   });
 
   it('Created logger "logify" should work as expected', () => {
-    const testFunction = (fail) => new BPromise((resolve, reject) => {
+    const testFunction = (fail) => new Promise((resolve, reject) => {
       if (fail) {
         return reject(new Error('FAIL!'));
       } else {

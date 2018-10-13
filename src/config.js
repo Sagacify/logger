@@ -1,8 +1,5 @@
 const env = process.env;
 
-export default {
-  logEntries: {
-    token: env.LOGENTRIES_TOKEN
-  },
+module.exports = {
   logLevel: env.LOG_LEVEL
 };
