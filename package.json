@@ -2,7 +2,7 @@
   "name": "saga-logger",
   "version": "1.0.0",
   "description": "A basic Logger object that force a logging format, can use logentries",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test:lint": "semistandard --verbose | snazzy",
     "test:cover": "nyc --reporter=text-summary --reporter=lcov npm run test:spec",
@@ -24,7 +24,6 @@
   },
   "homepage": "https://github.com/Sagacify/logger#readme",
   "dependencies": {
-    "bluebird": "^3.5.2",
     "bunyan": "^1.8.12",
     "lodash": "^4.17.11"
   },
