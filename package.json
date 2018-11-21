@@ -6,7 +6,7 @@
   "scripts": {
     "test:lint": "semistandard --verbose | snazzy",
     "test:cover": "nyc --reporter=text-summary --reporter=lcov npm run test:spec",
-    "test:spec": "LOG_LEVEL=fatal mocha test/**/*.js",
+    "test:spec": "mocha --recursive",
     "test": "npm run test:lint && npm run test:cover"
   },
   "repository": {
@@ -24,14 +24,17 @@
   },
   "homepage": "https://github.com/Sagacify/logger#readme",
   "dependencies": {
-    "bunyan": "^1.8.12",
-    "lodash": "^4.17.11"
+    "pino": "^5.8.1",
+    "pino-pretty": "^2.2.3"
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^5.2.0",
+    "intercept-stdout": "^0.1.2",
+    "lodash": "^4.17.11",
+    "mocha": "^6.0.2",
     "nyc": "^13.0.1",
-    "semistandard": "^12.0.1",
+    "semistandard": "^13.0.0",
+    "sinon": "^7.2.7",
     "snazzy": "^8.0.0"
   },
   "nyc": {
