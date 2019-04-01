@@ -122,6 +122,7 @@ describe('Class Logger', () => {
       const destination = destinationStream(outputText => {
         const output = JSON.parse(outputText);
 
+        expect(output).to.have.nested.property('data.error.message', 'test');
         expect(output).to.have.nested.property('data.error.stack');
         done();
       });
@@ -136,6 +137,7 @@ describe('Class Logger', () => {
       const destination = destinationStream(outputText => {
         const output = JSON.parse(outputText);
 
+        expect(output).to.have.nested.property('data.error.message', 'test');
         expect(output).to.have.nested.property('data.error.stack');
         done();
       });
@@ -150,6 +152,7 @@ describe('Class Logger', () => {
       const destination = destinationStream(outputText => {
         const output = JSON.parse(outputText);
 
+        expect(output).to.have.nested.property('data.error.message', 'test');
         expect(output).to.not.have.nested.property('data.error.stack');
         done();
       });
