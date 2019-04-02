@@ -37,12 +37,21 @@ module.exports = class Logger {
     this.stackLevelIndex = levels.indexOf(stackLevel);
   }
 
+  removeStack (error) {
+    const { message, stack, ...rest } = error;
+    const ErrorNoStack = { message, ...rest };
+    // Needed to be recognized as an error
+    Object.setPrototypeOf(ErrorNoStack, Object.getPrototypeOf(error));
+
+    return ErrorNoStack;
+  }
+
   buildLog (logLevelindex, event, data = null, meta = null) {
     if (data instanceof Error) {
       let error = data;
       if (logLevelindex < this.stackLevelIndex) {
         // Remove stack when not required
-        error = (({ stack, ...rest }) => rest)(error);
+        error = this.removeStack(error);
       }
       data = {
         error: pino.stdSerializers.err(error)
