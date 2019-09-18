@@ -36,30 +36,34 @@ var log = require('saga-logger')
   .create({ module: 'files-controller' });
 
 log.debug('event', {
-  someData : data
+  user: {
+    id : 132
+  }
 }, {
-  someMetadata : metadata
+  user: {
+    name: 'Someone'
+  }
 });
 ```
 
-Data and metadata are optional.
-Data can be an `Error` object
+The indexed and raw parameters are optional.
+They can be or they can contain an `Error` object in a error field which will be serialized
 
 Here are the different logging methods:
 
 ```js
-log.debug(event, data, metadata);
-log.info(event, data, metadata);
-log.warn(event, data, metadata);
-log.error(event, data, metadata);
-log.fatal(event, data, metadata);
+log.debug(event, indexed, raw);
+log.info(event, indexed, raw);
+log.warn(event, indexed, raw);
+log.error(event, indexed, raw);
+log.fatal(event, indexed, raw);
 ```
 ## Output
 
 With this code and a `version.json` file present:
 
 ```js
-log.error('ERROR_EVENT', new Error('Some error'), { foo: 'bar' });
+log.error('ERROR_EVENT', { error: new Error('Some error') }, { foo: 'bar' });
 ```
 
 ```json
@@ -75,14 +79,14 @@ log.error('ERROR_EVENT', new Error('Some error'), { foo: 'bar' });
   "name": "saga-logger",
   "module": "mymodule",
   "event": "ERROR_EVENT",
-  "data": {
+  "indexed": {
     "error": {
       "type": "Error",
       "message": "Some error",
       "stack": "Error: Some error\n    at Context.it (/var/www/logger/test/libs/Logger.spec.js:191:31)\n    at callFnAsync (/var/www/logger/node_modules/mocha/lib/runnable.js:400:21)\n    at Test.Runnable.run (/var/www/logger/node_modules/mocha/lib/runnable.js:342:7)\n    at Runner.runTest (/var/www/logger/node_modules/mocha/lib/runner.js:455:10)\n    at /var/www/logger/node_modules/mocha/lib/runner.js:573:12\n    at next (/var/www/logger/node_modules/mocha/lib/runner.js:369:14)\n    at /var/www/logger/node_modules/mocha/lib/runner.js:379:7\n    at next (/var/www/logger/node_modules/mocha/lib/runner.js:303:14)\n    at Immediate._onImmediate (/var/www/logger/node_modules/mocha/lib/runner.js:347:5)\n    at runCallback (timers.js:694:18)\n    at tryOnImmediate (timers.js:665:5)\n    at processImmediate (timers.js:647:5)"
     }
   },
-  "meta": {
+  "raw": {
     "foo": "bar"
   },
   "v":1
