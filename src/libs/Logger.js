@@ -28,9 +28,6 @@ module.exports = class Logger {
       },
       level: logLevel || 'info',
       timestamp: () => `,"time":"${new Date().toISOString()}"`,
-      serializers: {
-        error: pino.stdSerializers.err
-      },
       prettyPrint: pretty ? { colorize: true } : false
     }, destination);
 
@@ -46,19 +43,43 @@ module.exports = class Logger {
     return ErrorNoStack;
   }
 
-  buildLog (logLevelindex, event, data = null, meta = null) {
-    if (data instanceof Error) {
-      let error = data;
-      if (logLevelindex < this.stackLevelIndex) {
-        // Remove stack when not required
-        error = this.removeStack(error);
-      }
-      data = {
-        error: pino.stdSerializers.err(error)
-      };
+  serializeError (logLevelindex, logData) {
+    let serialized;
+    const isError = logData instanceof Error;
+    let baseError;
+
+    if (isError) {
+      baseError = logData;
+    } else if ((logData || {}).error instanceof Error) {
+      baseError = logData.error;
     }
 
-    return { event, data, meta };
+    if (baseError) {
+      if (logLevelindex < this.stackLevelIndex) {
+        // Remove stack when not required
+        baseError = this.removeStack(baseError);
+      }
+      serialized = isError
+        ? { error: pino.stdSerializers.err(baseError) }
+        : {
+          ...logData,
+          error: pino.stdSerializers.err(baseError)
+        };
+    } else {
+      serialized = logData;
+    }
+
+    return serialized;
+  }
+
+  buildLog (logLevelindex, event, indexed = null, raw = null) {
+    const finalLog = {
+      event,
+      indexed: this.serializeError(logLevelindex, indexed),
+      raw: this.serializeError(logLevelindex, raw)
+    };
+
+    return finalLog;
   }
 
   create (info) {

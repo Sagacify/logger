@@ -35,8 +35,8 @@ describe('Class Logger', () => {
   });
 
   describe('Method create ', () => {
-    let logger = new Logger();
-    let log = logger.create({ module: 'test' });
+    const logger = new Logger();
+    const log = logger.create({ module: 'test' });
 
     it('creates an object logger', () => {
       expect(log).to.be.an('object');
@@ -72,7 +72,8 @@ describe('Class Logger', () => {
       const destination = destinationStream(outputText => {
         const output = JSON.parse(outputText);
 
-        expect(output).to.deep.equal({ level: 30,
+        expect(output).to.deep.equal({
+          level: 30,
           time: '2019-01-01T00:00:00.000Z',
           hostname,
           pid,
@@ -80,8 +81,8 @@ describe('Class Logger', () => {
           name: 'saga-logger',
           module: 'test',
           event: 'TEST_EVENT',
-          data: { val: 1 },
-          meta: { val: '2' },
+          indexed: { val: 1 },
+          raw: { val: '2' },
           v: 1
         });
 
@@ -98,12 +99,12 @@ describe('Class Logger', () => {
     it('should log in the good pretty format', (done) => {
       const destination = destinationStream(outputText => {
         expect(outputText.split('\n')).to.deep.equal([
-          `["2019-01-01T00:00:00.000Z"] \u001b[32mINFO\u001b[39m (saga-logger/${pid} on ${hostname}): `,
+          `["2019-01-01T00:00:00.000Z"] \u001b[32mINFO \u001b[39m (saga-logger/${pid} on ${hostname}):`,
           `    version: "${version}"`,
           '    module: "test"',
           '    event: "TEST_EVENT"',
-          '    data: null',
-          '    meta: null',
+          '    indexed: null',
+          '    raw: null',
           ''
         ]);
         done();
@@ -118,12 +119,33 @@ describe('Class Logger', () => {
   });
 
   describe('Logging error stack', () => {
+    it('should log error and indexed', (done) => {
+      const destination = destinationStream(outputText => {
+        const output = JSON.parse(outputText);
+
+        expect(output).to.have.nested.property('indexed.error.message', 'test');
+        expect(output).to.have.nested.property('indexed.error.stack');
+        expect(output).to.have.nested.deep.property('indexed.user', { id: 123 });
+        done();
+      });
+
+      const logger = new Logger({ destination, stackLevel: 'error' });
+      const log = logger.create({ module: 'test' });
+      log.error('TEST_ERROR', {
+        user: {
+          id: 123
+        },
+        error: new Error('test')
+      });
+      destination.end();
+    });
+
     it('should log the stack for defined level', (done) => {
       const destination = destinationStream(outputText => {
         const output = JSON.parse(outputText);
 
-        expect(output).to.have.nested.property('data.error.message', 'test');
-        expect(output).to.have.nested.property('data.error.stack');
+        expect(output).to.have.nested.property('indexed.error.message', 'test');
+        expect(output).to.have.nested.property('indexed.error.stack');
         done();
       });
 
@@ -137,8 +159,8 @@ describe('Class Logger', () => {
       const destination = destinationStream(outputText => {
         const output = JSON.parse(outputText);
 
-        expect(output).to.have.nested.property('data.error.message', 'test');
-        expect(output).to.have.nested.property('data.error.stack');
+        expect(output).to.have.nested.property('indexed.error.message', 'test');
+        expect(output).to.have.nested.property('indexed.error.stack');
         done();
       });
 
@@ -152,8 +174,8 @@ describe('Class Logger', () => {
       const destination = destinationStream(outputText => {
         const output = JSON.parse(outputText);
 
-        expect(output).to.have.nested.property('data.error.message', 'test');
-        expect(output).to.not.have.nested.property('data.error.stack');
+        expect(output).to.have.nested.property('indexed.error.message', 'test');
+        expect(output).to.not.have.nested.property('indexed.error.stack');
         done();
       });
 
@@ -185,8 +207,8 @@ describe('Class Logger', () => {
           name: 'saga-logger',
           module: 'test',
           event: 'TEST_EVENT',
-          data: { foo: 'bar' },
-          meta: { bar: 'foo' },
+          indexed: { foo: 'bar' },
+          raw: { bar: 'foo' },
           v: 1
         });
 
