@@ -164,8 +164,8 @@ describe('Class Logger', () => {
         done();
       });
 
-      const logger = new Logger({ destination });
-      const log = logger.create({ module: 'test', stackLevel: 'warn' });
+      const logger = new Logger({ destination, stackLevel: 'warn' });
+      const log = logger.create({ module: 'test' });
       log.fatal('TEST_ERROR', new Error('test'));
       destination.end();
     });
@@ -179,8 +179,8 @@ describe('Class Logger', () => {
         done();
       });
 
-      const logger = new Logger({ destination });
-      const log = logger.create({ module: 'test', stackLevel: 'error' });
+      const logger = new Logger({ destination, stackLevel: 'error' });
+      const log = logger.create({ module: 'test' });
       const error = new Error('test');
 
       log.warn('TEST_ERROR', error);
@@ -218,6 +218,24 @@ describe('Class Logger', () => {
       const logger = new Logger({ destination });
       const log = logger.create({ module: 'test' });
       log.info('TEST_EVENT', { foo: 'bar' }, { bar: 'foo' });
+    });
+  });
+
+  describe('Logging error message', () => {
+    it('should log a shortened error message', (done) => {
+      const destination = destinationStream(outputText => {
+        const output = JSON.parse(outputText);
+
+        expect(output).to.have.nested.property('indexed.error.message', 'test');
+        done();
+      });
+
+      const logger = new Logger({ destination, messageErrorLength: 4 });
+      const log = logger.create({ module: 'test' });
+      const error = new Error('test-to-be-shorten');
+
+      log.error('TEST_ERROR', error);
+      destination.end();
     });
   });
 });
