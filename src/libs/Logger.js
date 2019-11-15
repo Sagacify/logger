@@ -12,6 +12,7 @@ module.exports = class Logger {
     logLevel = '',
     stackLevel = 'error',
     destination = pino.destination(1),
+    messageErrorLength = 0, // 0 means no limit
     pretty = false
   } = {}) {
     const { projectName, buildNumber, commit } = versionInfo;
@@ -31,7 +32,14 @@ module.exports = class Logger {
       prettyPrint: pretty ? { colorize: true } : false
     }, destination);
 
+    this.messageErrorLength = messageErrorLength;
     this.stackLevelIndex = levels.indexOf(stackLevel);
+  }
+
+  shortenMessage (error) {
+    if (error.message.length > this.messageErrorLength) {
+      error.message = error.message.substring(0, this.messageErrorLength);
+    }
   }
 
   removeStack (error) {
@@ -55,6 +63,11 @@ module.exports = class Logger {
     }
 
     if (baseError) {
+      // Some package, put entire file in message this is too crazy ...
+      if (this.messageErrorLength > 0) {
+        this.shortenMessage(baseError);
+      }
+
       if (logLevelindex < this.stackLevelIndex) {
         // Remove stack when not required
         baseError = this.removeStack(baseError);

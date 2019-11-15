@@ -7,12 +7,14 @@ LOG_LEVEL # (optional) Defines you log level, defaut 'info'
 LOG_ENDPOINT # (optional) Defines an udp endpoint format: 10.0.10.100:5300
 LOG_STACK_LEVEL # (optional) Defines minimum level to log stack, default 'error'
 LOG_PRETTY # (optional) Defines pretty print output, default false
+LOG_ERROR_MESSAGE_LENGTH # (optional) Defines error message max length output, default 0 (no limit)
 ```
 
 *Notes:*
 
  - *LOG_ENDPOINT is intended to be used with AWS Lambda and will be over UDP*
  - *LOG_PRETTY is intended to be used in local development*
+ - *LOG_ERROR_MESSAGE_LENGTH is intended to be used when package like request log full request content with files...*
 
 ## Automatic loads
 
