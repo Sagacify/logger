@@ -1,3 +1,10 @@
+## [4.0.2](https://github.com/Sagacify/logger/compare/v4.0.1...v4.0.2) (2021-09-02)
+
+
+### Bug Fixes
+
+* remove all export default ([179b3c6](https://github.com/Sagacify/logger/commit/179b3c61f3d122d28f89abd49127da61c5737efb))
+
 ## [4.0.1](https://github.com/Sagacify/logger/compare/v4.0.0...v4.0.1) (2021-09-02)
 
 
