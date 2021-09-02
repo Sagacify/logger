@@ -1,12 +1,15 @@
-const path = require('path');
+import path from 'path';
 
-const loadJson = (filename, defaults = null, attempts = 1) => {
+const loadJson = <T>(
+  filename: string,
+  required = false,
+  attempts = 1
+): T | undefined => {
   if (attempts > 5) {
-    if (defaults) {
-      return defaults;
+    if (required) {
+      throw new Error(`Can't resolve ${filename} file`);
     }
-
-    throw new Error(`Can't resolve ${filename} file`);
+    return;
   }
   // Need to resolve "." to get the path of the execution command
   let mainPath = path.resolve('.');
@@ -16,8 +19,8 @@ const loadJson = (filename, defaults = null, attempts = 1) => {
   try {
     return require(path.join(mainPath, filename));
   } catch (e) {
-    return loadJson(filename, defaults, attempts + 1);
+    return loadJson(filename, required, attempts + 1);
   }
 };
 
-module.exports = loadJson;
+export default loadJson;
