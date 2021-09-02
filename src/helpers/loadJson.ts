@@ -1,10 +1,10 @@
 import path from 'path';
 
-const loadJson = <T>(
+export function loadJson<T>(
   filename: string,
   required = false,
   attempts = 1
-): T | undefined => {
+): T | undefined {
   if (attempts > 5) {
     if (required) {
       throw new Error(`Can't resolve ${filename} file`);
@@ -21,6 +21,4 @@ const loadJson = <T>(
   } catch (e) {
     return loadJson(filename, required, attempts + 1);
   }
-};
-
-export default loadJson;
+}

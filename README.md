@@ -1,7 +1,7 @@
 # Sagacify Standarized Logger
 
-[![ci](https://github.com/sagacify/logger/actions/workflows/ci.yml/badge.svg)](https://github.com/Sagacify/logger/actions/workflows/ci.yml)
 [![npm version](https://img.shields.io/npm/v/saga-logger.svg)](https://www.npmjs.com/package/saga-logger)
+[![ci](https://github.com/sagacify/logger/actions/workflows/ci.yml/badge.svg)](https://github.com/Sagacify/logger/actions/workflows/ci.yml)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 ## Environment Variables
@@ -38,10 +38,13 @@ but also from a `version.json` file if present at the root of the project.
 ## Usage
 
 ```js
-var log = require('saga-logger')
-  .create({ module: 'files-controller' });
+import { logger } from 'saga-logger';
+// Or
+const { logger } = require('saga-logger');
 
-log.debug('event', {
+const log = logger.create({ module: 'files-controller' });
+
+log.info('event', {
   user: {
     id : 132
   }

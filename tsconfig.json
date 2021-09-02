@@ -42,12 +42,11 @@
       "DOM"
     ]
   },
-  "exclude": [
-    "node_modules",
-    "build"
-  ],
   "include": [
     "**/*.ts"
+  ],
+  "exclude": [
+    "build"
   ],
   "compileOnSave": false,
   "buildOnSave": false
