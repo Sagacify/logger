@@ -1,3 +1,10 @@
+## [4.0.4](https://github.com/Sagacify/logger/compare/v4.0.3...v4.0.4) (2021-09-02)
+
+
+### Bug Fixes
+
+* **$:** add missing pino types ([b91496f](https://github.com/Sagacify/logger/commit/b91496f89f0b3e44c4a84bdd51ce7bca72f70d39))
+
 ## [4.0.3](https://github.com/Sagacify/logger/compare/v4.0.2...v4.0.3) (2021-09-02)
 
 
