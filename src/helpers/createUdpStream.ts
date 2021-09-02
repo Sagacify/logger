@@ -1,7 +1,7 @@
 import dgram from 'dgram';
 import { Writable } from 'stream';
 
-const createUdpStream = (endpoint: string): Writable => {
+export function createUdpStream(endpoint: string): Writable {
   const socket = dgram.createSocket('udp4');
   const splitIndex = endpoint.lastIndexOf(':');
   const port = parseInt(endpoint.substring(splitIndex + 1), 10);
@@ -18,6 +18,4 @@ const createUdpStream = (endpoint: string): Writable => {
       callback();
     }
   });
-};
-
-export default createUdpStream;
+}

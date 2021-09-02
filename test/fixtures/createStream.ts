@@ -1,6 +1,8 @@
 import { Writable } from 'stream';
 
-const createStream = (outputHandler: (output: string) => void): Writable => {
+export function createStream(
+  outputHandler: (output: string) => void
+): Writable {
   let output = '';
 
   return new Writable({
@@ -12,6 +14,4 @@ const createStream = (outputHandler: (output: string) => void): Writable => {
   }).on('finish', () => {
     outputHandler(output);
   });
-};
-
-export default createStream;
+}

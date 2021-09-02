@@ -1,6 +1,6 @@
 import pino from 'pino';
 import os from 'os';
-import loadJson from '../helpers/loadJson';
+import { loadJson } from '../helpers/loadJson';
 
 type PackageJson = {
   version: string;
@@ -40,7 +40,7 @@ type FinalLogger = Record<
   ) => void
 >;
 
-export default class Logger {
+export class Logger {
   main: pino.Logger;
   messageErrorLength: number;
   stackLevelIndex: number;

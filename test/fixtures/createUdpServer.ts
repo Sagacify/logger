@@ -1,9 +1,9 @@
 import dgram from 'dgram';
 
-const createServer = (
+export function createUdpServer(
   port: number,
   messageHandler: (message: string) => void
-): dgram.Socket => {
+): dgram.Socket {
   const server = dgram.createSocket('udp4');
 
   server.once('error', (err) => {
@@ -18,6 +18,4 @@ const createServer = (
   server.bind(port);
 
   return server;
-};
-
-export default createServer;
+}

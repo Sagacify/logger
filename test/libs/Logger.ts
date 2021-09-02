@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import { useFakeTimers, SinonFakeTimers } from 'sinon';
-import createUpdDestination from '../../src/helpers/createUdpStream';
-import destinationStream from '../fixtures/destintionStream';
-import udpServer from '../fixtures/udpServer';
+import { createUdpStream } from '../../src/helpers/createUdpStream';
+import { createStream } from '../fixtures/createStream';
+import { createUdpServer } from '../fixtures/createUdpServer';
 
-import Logger from '../../src/libs/Logger';
+import { Logger } from '../../src/libs/Logger';
 import os from 'os';
 import { version } from '../../package.json';
 
@@ -71,7 +71,7 @@ describe('Class Logger', () => {
 
   describe('Logging format', () => {
     it('should log in the good JSON format', (done) => {
-      const destination = destinationStream((outputText) => {
+      const destination = createStream((outputText) => {
         const output = JSON.parse(outputText);
 
         expect(output).to.deep.equal({
@@ -98,7 +98,7 @@ describe('Class Logger', () => {
     });
 
     it('should log in the good pretty format', (done) => {
-      const destination = destinationStream((outputText) => {
+      const destination = createStream((outputText) => {
         expect(outputText.split('\n')).to.have.members([
           `[2019-01-01T00:00:00.000Z] \u001b[32mINFO\u001b[39m (saga-logger/${pid} on ${hostname}):`,
           `    version: "${version}"`,
@@ -121,7 +121,7 @@ describe('Class Logger', () => {
 
   describe('Logging error stack', () => {
     it('should log error and indexed', (done) => {
-      const destination = destinationStream((outputText) => {
+      const destination = createStream((outputText) => {
         const output = JSON.parse(outputText);
 
         expect(output).to.have.nested.property('indexed.error.message', 'test');
@@ -144,7 +144,7 @@ describe('Class Logger', () => {
     });
 
     it('should log the stack for defined level', (done) => {
-      const destination = destinationStream((outputText) => {
+      const destination = createStream((outputText) => {
         const output = JSON.parse(outputText);
 
         expect(output).to.have.nested.property('indexed.error.message', 'test');
@@ -159,7 +159,7 @@ describe('Class Logger', () => {
     });
 
     it('should log the stack above defined level', (done) => {
-      const destination = destinationStream((outputText) => {
+      const destination = createStream((outputText) => {
         const output = JSON.parse(outputText);
 
         expect(output).to.have.nested.property('indexed.error.message', 'test');
@@ -174,7 +174,7 @@ describe('Class Logger', () => {
     });
 
     it('should NOT log the stack below defined level', (done) => {
-      const destination = destinationStream((outputText) => {
+      const destination = createStream((outputText) => {
         const output = JSON.parse(outputText);
 
         expect(output).to.have.nested.property('indexed.error.message', 'test');
@@ -193,8 +193,8 @@ describe('Class Logger', () => {
 
   describe('Logging destination', () => {
     it('should log on a udp destination', (done) => {
-      const destination = createUpdDestination('localhost:5000');
-      const server = udpServer(5000, (message) => {
+      const destination = createUdpStream('localhost:5000');
+      const server = createUdpServer(5000, (message) => {
         // First close server and socket to avoid hanging
         destination.end();
         server.close();
@@ -225,7 +225,7 @@ describe('Class Logger', () => {
 
   describe('Logging error message', () => {
     it('should log a shortened error message', (done) => {
-      const destination = destinationStream((outputText) => {
+      const destination = createStream((outputText) => {
         const output = JSON.parse(outputText);
 
         expect(output).to.have.nested.property('indexed.error.message', 'test');
