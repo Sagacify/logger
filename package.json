@@ -31,6 +31,7 @@
     "node": ">=12.22.6"
   },
   "dependencies": {
+    "@types/pino": "^6.3.11",
     "pino": "^6.13.1",
     "pino-pretty": "^6.0.0"
   },
@@ -38,7 +39,6 @@
     "@types/chai": "^4.2.21",
     "@types/mocha": "^9.0.0",
     "@types/node": "^16.7.10",
-    "@types/pino": "^6.3.11",
     "@types/sinon": "^10.0.2",
     "@typescript-eslint/eslint-plugin": "^4.30.0",
     "@typescript-eslint/parser": "^4.30.0",
