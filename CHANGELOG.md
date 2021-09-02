@@ -1,3 +1,10 @@
+## [4.0.1](https://github.com/Sagacify/logger/compare/v4.0.0...v4.0.1) (2021-09-02)
+
+
+### Bug Fixes
+
+* **ci:** add missing compile step ([21622ac](https://github.com/Sagacify/logger/commit/21622ac0e89b8c3b2c5bbcaec3b13a666b605333))
+
 # [4.0.0](https://github.com/Sagacify/logger/compare/v3.1.0...v4.0.0) (2021-09-02)
 
 
