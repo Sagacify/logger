@@ -1,6 +1,9 @@
-const dgram = require('dgram');
+import dgram from 'dgram';
 
-const createServer = (port, messageHandler) => {
+const createServer = (
+  port: number,
+  messageHandler: (message: string) => void
+): dgram.Socket => {
   const server = dgram.createSocket('udp4');
 
   server.once('error', (err) => {
@@ -17,4 +20,4 @@ const createServer = (port, messageHandler) => {
   return server;
 };
 
-module.exports = createServer;
+export default createServer;

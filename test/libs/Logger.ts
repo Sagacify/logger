@@ -1,16 +1,18 @@
-const { expect } = require('chai');
-const { useFakeTimers } = require('sinon');
-const createUpdDestination = require('../../src/helpers/createUdpStream');
-const destinationStream = require('../fixtures/destintionStream');
-const udpServer = require('../fixtures/udpServer');
+import { expect } from 'chai';
+import { useFakeTimers, SinonFakeTimers } from 'sinon';
+import createUpdDestination from '../../src/helpers/createUdpStream';
+import destinationStream from '../fixtures/destintionStream';
+import udpServer from '../fixtures/udpServer';
 
-const Logger = require('../../src/libs/Logger');
-const hostname = require('os').hostname();
-const version = require('../../package.json').version;
+import Logger from '../../src/libs/Logger';
+import os from 'os';
+import { version } from '../../package.json';
+
+const hostname = os.hostname();
 const pid = process.pid;
 
 describe('Class Logger', () => {
-  let clock;
+  let clock: SinonFakeTimers;
 
   before(() => {
     clock = useFakeTimers({
@@ -69,7 +71,7 @@ describe('Class Logger', () => {
 
   describe('Logging format', () => {
     it('should log in the good JSON format', (done) => {
-      const destination = destinationStream(outputText => {
+      const destination = destinationStream((outputText) => {
         const output = JSON.parse(outputText);
 
         expect(output).to.deep.equal({
@@ -82,8 +84,7 @@ describe('Class Logger', () => {
           module: 'test',
           event: 'TEST_EVENT',
           indexed: { val: 1 },
-          raw: { val: '2' },
-          v: 1
+          raw: { val: '2' }
         });
 
         done();
@@ -97,9 +98,9 @@ describe('Class Logger', () => {
     });
 
     it('should log in the good pretty format', (done) => {
-      const destination = destinationStream(outputText => {
-        expect(outputText.split('\n')).to.deep.equal([
-          `["2019-01-01T00:00:00.000Z"] \u001b[32mINFO \u001b[39m (saga-logger/${pid} on ${hostname}):`,
+      const destination = destinationStream((outputText) => {
+        expect(outputText.split('\n')).to.have.members([
+          `[2019-01-01T00:00:00.000Z] \u001b[32mINFO\u001b[39m (saga-logger/${pid} on ${hostname}):`,
           `    version: "${version}"`,
           '    module: "test"',
           '    event: "TEST_EVENT"',
@@ -120,12 +121,14 @@ describe('Class Logger', () => {
 
   describe('Logging error stack', () => {
     it('should log error and indexed', (done) => {
-      const destination = destinationStream(outputText => {
+      const destination = destinationStream((outputText) => {
         const output = JSON.parse(outputText);
 
         expect(output).to.have.nested.property('indexed.error.message', 'test');
         expect(output).to.have.nested.property('indexed.error.stack');
-        expect(output).to.have.nested.deep.property('indexed.user', { id: 123 });
+        expect(output).to.have.deep.nested.property('indexed.user', {
+          id: 123
+        });
         done();
       });
 
@@ -141,7 +144,7 @@ describe('Class Logger', () => {
     });
 
     it('should log the stack for defined level', (done) => {
-      const destination = destinationStream(outputText => {
+      const destination = destinationStream((outputText) => {
         const output = JSON.parse(outputText);
 
         expect(output).to.have.nested.property('indexed.error.message', 'test');
@@ -156,7 +159,7 @@ describe('Class Logger', () => {
     });
 
     it('should log the stack above defined level', (done) => {
-      const destination = destinationStream(outputText => {
+      const destination = destinationStream((outputText) => {
         const output = JSON.parse(outputText);
 
         expect(output).to.have.nested.property('indexed.error.message', 'test');
@@ -171,7 +174,7 @@ describe('Class Logger', () => {
     });
 
     it('should NOT log the stack below defined level', (done) => {
-      const destination = destinationStream(outputText => {
+      const destination = destinationStream((outputText) => {
         const output = JSON.parse(outputText);
 
         expect(output).to.have.nested.property('indexed.error.message', 'test');
@@ -191,7 +194,7 @@ describe('Class Logger', () => {
   describe('Logging destination', () => {
     it('should log on a udp destination', (done) => {
       const destination = createUpdDestination('localhost:5000');
-      const server = udpServer(5000, message => {
+      const server = udpServer(5000, (message) => {
         // First close server and socket to avoid hanging
         destination.end();
         server.close();
@@ -208,8 +211,7 @@ describe('Class Logger', () => {
           module: 'test',
           event: 'TEST_EVENT',
           indexed: { foo: 'bar' },
-          raw: { bar: 'foo' },
-          v: 1
+          raw: { bar: 'foo' }
         });
 
         done();
@@ -223,7 +225,7 @@ describe('Class Logger', () => {
 
   describe('Logging error message', () => {
     it('should log a shortened error message', (done) => {
-      const destination = destinationStream(outputText => {
+      const destination = destinationStream((outputText) => {
         const output = JSON.parse(outputText);
 
         expect(output).to.have.nested.property('indexed.error.message', 'test');
