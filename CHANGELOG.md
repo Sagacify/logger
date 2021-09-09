@@ -1,3 +1,10 @@
+## [4.0.5](https://github.com/Sagacify/logger/compare/v4.0.4...v4.0.5) (2021-09-09)
+
+
+### Bug Fixes
+
+* **tsconfig:** remove importHelpers ([b606beb](https://github.com/Sagacify/logger/commit/b606beb0171d817bb055be48324d79a1f74669ad))
+
 ## [4.0.4](https://github.com/Sagacify/logger/compare/v4.0.3...v4.0.4) (2021-09-02)
 
 
