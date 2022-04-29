@@ -31,11 +31,11 @@ interface LoggerOptions {
   pretty?: boolean;
 }
 
-type FinalLogger = Record<
+export type FinalLogger = Record<
   string,
   (
     event: string,
-    indexed?: Record<string, unknown> | Error,
+    indexed?: Record<string, unknown> | Error | null,
     raw?: Record<string, unknown>
   ) => void
 >;
