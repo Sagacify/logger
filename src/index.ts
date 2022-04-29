@@ -1,4 +1,4 @@
-import { Logger } from './libs/Logger';
+import { Logger, FinalLogger } from './libs/Logger';
 import { createUdpStream } from './helpers/createUdpStream';
 
 const env = process.env;
@@ -14,4 +14,4 @@ const logger = new Logger({
   destination
 });
 
-export { logger };
+export { logger, FinalLogger };
