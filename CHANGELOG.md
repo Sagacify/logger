@@ -1,3 +1,10 @@
+## [4.0.6](https://github.com/Sagacify/logger/compare/v4.0.5...v4.0.6) (2022-04-29)
+
+
+### Bug Fixes
+
+* **logger:** correct indexed typing & export FinalLogger type ([4e1f921](https://github.com/Sagacify/logger/commit/4e1f921b12c3e2afa6323ec02e3e6bc8c9c5a392))
+
 ## [4.0.5](https://github.com/Sagacify/logger/compare/v4.0.4...v4.0.5) (2021-09-09)
 
 
