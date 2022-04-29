@@ -1,3 +1,10 @@
+## [4.0.7](https://github.com/Sagacify/logger/compare/v4.0.6...v4.0.7) (2022-04-29)
+
+
+### Bug Fixes
+
+* **typing:** export FinalLogger type ([8d5ed1f](https://github.com/Sagacify/logger/commit/8d5ed1f9c0e0709e1e3b9d6d32cf2f8171469156))
+
 ## [4.0.6](https://github.com/Sagacify/logger/compare/v4.0.5...v4.0.6) (2022-04-29)
 
 
